@@ -5,6 +5,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -22,6 +23,10 @@ func (gp *GP) HandlerFunc() gin.HandlerFunc {
 		responseSize := float64(c.Writer.Size())
 
 		url := c.Request.URL.Path
+		for _, p := range c.Params {
+			url = strings.Replace(url, p.Value, ":"+p.Key, 1)
+		}
+
 		node, _ := os.Hostname()
 		if m, exist := gp.Metric("requests_total"); exist {
 			m.IncBy([]string{node}, 1.0)

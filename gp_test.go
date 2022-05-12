@@ -15,7 +15,7 @@ func Test(t *testing.T)  {
 		return
 	}
 
-	r.GET("/", func(c *gin.Context) {
+	r.GET("/:id/:ttt", func(c *gin.Context) {
 		c.JSON(200, "Hello world!")
 	})
 
